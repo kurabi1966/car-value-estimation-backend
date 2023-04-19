@@ -8,6 +8,7 @@ import {
   IsLatitude,
   Max,
   IsBoolean,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateReportDto {
@@ -69,7 +70,7 @@ export class ReportDto {
   updated_at: Date;
 
   @Transform(({ obj }) => {
-    return obj.user.id;
+    return obj.user?.id;
   })
   @Expose()
   userId: number;
@@ -110,4 +111,35 @@ export class GetEstimateDto {
   @IsLatitude()
   @Transform(({ value }) => parseFloat(value))
   lat: number;
+}
+
+export class GetReportsDto {
+  @IsString()
+  @IsOptional()
+  make?: string;
+
+  @IsString()
+  @IsOptional()
+  model?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1930)
+  @Max(2050)
+  @Transform(({ value }) => parseInt(value))
+  year?: number;
+
+  @IsOptional()
+  @IsString()
+  approved?: string;
+
+  @IsOptional()
+  @IsLongitude()
+  @Transform(({ value }) => parseFloat(value))
+  lng?: number;
+
+  @IsOptional()
+  @IsLatitude()
+  @Transform(({ value }) => parseFloat(value))
+  lat?: number;
 }

@@ -24,4 +24,7 @@ Content-Type: application/json
 }
 
 ###
-GET {{url}}?make=ford&model=mustang&year=2015&lng=25&lat=55&mileage=50000 HTTP/1.1
+GET {{url}}/estimate?make=ford&model=mustang&year=2015&lng=25&lat=55&mileage=50000 HTTP/1.1
+
+###
+GET {{url}}?year=2015 HTTP/1.1

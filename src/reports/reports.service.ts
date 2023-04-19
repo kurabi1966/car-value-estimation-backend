@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { NotFoundError } from 'rxjs';
-import { GetEstimateDto } from './dtos/reports.dto';
+import { GetEstimateDto, GetReportsDto } from './dtos/reports.dto';
 
 @Injectable()
 export class ReportsService {
@@ -58,5 +58,29 @@ export class ReportsService {
       .setParameters({ mileage })
       .limit(3)
       .getRawOne();
+  }
+
+  async getReports(query: GetReportsDto) {
+    const { make, model, year, lng, lat, approved } = query;
+    let where = year ? 'year = :year' : 'year > 1929';
+    where += make ? ' AND make = :make' : '';
+    where += model ? ' AND model = :model' : '';
+    where += lng ? ' AND lng - :lng BETWEEN -5 AND 5' : '';
+    where += lat ? ' AND lat - :lat BETWEEN -5 AND 5' : '';
+    where += approved === 'yes' ? ' AND approved IS TRUE' : '';
+    where += approved === 'no' ? ' AND approved IS FALSE' : '';
+    const whereParams = {};
+
+    make ? (whereParams['make'] = make) : null;
+    model ? (whereParams['model'] = model) : null;
+    lng ? (whereParams['lng'] = lng) : null;
+    lat ? (whereParams['lat'] = lat) : null;
+    year ? (whereParams['year'] = year) : null;
+
+    return await this.reportRepository
+      .createQueryBuilder()
+      .select('*')
+      .where(where, whereParams)
+      .getRawMany();
   }
 }

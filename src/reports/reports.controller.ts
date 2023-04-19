@@ -13,6 +13,7 @@ import {
   ApproveReportDto,
   CreateReportDto,
   GetEstimateDto,
+  GetReportsDto,
   ReportDto,
 } from './dtos/reports.dto';
 import { ReportsService } from './reports.service';
@@ -45,7 +46,15 @@ export class ReportsController {
     return this.reportService.changeApproval(parseInt(id), body.approved);
   }
 
+  @UseGuards(AdminGuard)
+  @Serialize(ReportDto)
   @Get('')
+  getReports(@Query() query: GetReportsDto) {
+    process.env.NODE_ENV === 'development' && this.logger.debug(`getReports`);
+    return this.reportService.getReports(query);
+  }
+
+  @Get('/estimate')
   getEstimate(@Query() query: GetEstimateDto) {
     process.env.NODE_ENV === 'development' && this.logger.debug(`getEstimate`);
 
