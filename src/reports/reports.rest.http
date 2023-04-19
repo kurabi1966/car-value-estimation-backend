@@ -1,0 +1,27 @@
+@url = http://localhost:3000/reports
+
+###
+
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "price": 70000,
+    "make": "ford",
+    "model": "mustang",
+    "year": 2016,
+    "mileage": 70000,
+    "lng": 25.3098354,
+    "lat": 55.3760612
+}
+
+###
+PATCH {{url}}/11 HTTP/1.1
+Content-Type: application/json
+
+{
+    "approved": true
+}
+
+###
+GET {{url}}?make=ford&model=mustang&year=2015&lng=25&lat=55&mileage=50000 HTTP/1.1

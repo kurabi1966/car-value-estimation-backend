@@ -1,0 +1,48 @@
+@url = http://localhost:3000/auth
+
+### Who Am I
+
+GET {{url}}/whoami HTTP/1.1
+
+###
+Post {{url}}/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "lina@kurabi.net",
+    "password": "!Q2w#E4r",
+    "isAdmin": true
+}
+
+###
+Post {{url}}/signin HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "lina@kurabi.net",
+    "password": "!Q2w#E4r"
+}
+
+###
+POST {{url}}/signout HTTP/1.1
+
+###
+Patch {{url}}/2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "password": "%R6t&Y8u"
+}
+
+### GET One user by id
+Get {{url}}/3 HTTP/1.1
+
+### Get All Users
+Get {{url}}/ HTTP/1.1
+
+### Get All Users
+Get {{url}}/?email=ali@kurabi.net HTTP/1.1
+
+### Remove a user by id
+Delete {{url}}/2 HTTP/1.1
+
